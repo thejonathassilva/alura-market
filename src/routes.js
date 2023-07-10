@@ -8,31 +8,31 @@ import { CartProvider } from 'common/context/Cart';
 
 export default function Router() {
   return (
-    <BrowserRouter>
-        <Routes>
-            <Route
-              path='/'  
-              element={
-                <UserProvider>
-                  <Login />
-                </UserProvider>
-              }
-            />
-            <Route
-              path='/feira'
-              element={
-                <UserProvider>
-                  <CartProvider>
-                    <Market/>
-                  </CartProvider>
-                </UserProvider>
-              }
-            />
-          <Route
-            path='/carrinho'
-            element={<Cart/>}
-            />
-        </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <CartProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route
+                  path='/'  
+                  element={
+                      <Login />
+                  }
+                />
+                <Route
+                  path='/feira'
+                  element={
+                        <Market/>
+                  }
+                />
+              <Route
+                path='/carrinho'
+                element={
+                    <Cart/>
+                    }
+                />
+            </Routes>
+        </BrowserRouter>
+      </CartProvider>
+    </UserProvider>
   )
 }
