@@ -2,14 +2,12 @@ import { Container, Title, InputContainer } from "./styles";
 import React from 'react';
 import { Input, InputLabel, InputAdornment, Button } from "@material-ui/core";
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from "common/context/User";
+import { useContext } from "react";
 
-export default function Login({
-  name,
-  setName,
-  balance,
-  setBalance
-}) {
+export default function Login() {
   const navigate = useNavigate();
+  let { name, setName, balance, setBalance } = useContext(UserContext);
 
   return (
     <Container>
