@@ -43,6 +43,7 @@ export default function Login() {
         onClick={() => {
           navigate('/feira');
         }}
+        disabled={name.length < 4}
         variant="contained"
         color="primary"
       >
