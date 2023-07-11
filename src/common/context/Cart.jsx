@@ -6,6 +6,7 @@ CartContext.displayName = "Cart";
 export const CartProvider = ({ children }) => {
   let [cart, setCart] = useState([]);
   let [productsAmount, setProductsAmount] = useState(0);
+  let [cartTotalValue, setCartTotalValue] = useState(0);
 
   return (
     <CartContext.Provider 
@@ -13,7 +14,9 @@ export const CartProvider = ({ children }) => {
         cart, 
         setCart,
         productsAmount,
-        setProductsAmount
+        setProductsAmount,
+        cartTotalValue,
+        setCartTotalValue
       }}
     >
        {children}
@@ -26,7 +29,9 @@ export const useCartContext = () => {
     cart, 
     setCart, 
     productsAmount, 
-    setProductsAmount
+    setProductsAmount,
+    cartTotalValue,
+    setCartTotalValue
   } = useContext(CartContext);
 
   function amountChange(id, amount) {
@@ -48,25 +53,33 @@ export const useCartContext = () => {
       setCart(amountChange(newProduct.id, 1))
     }
     
-    function removeProduct(id) {
-      const product = cart.find(cartItem => cartItem.id === id);
-      const isLast = product.amount === 1;
-      if(isLast) {
-        return setCart(lastCart => lastCart.filter(cartItem => cartItem.id !== id));
-      }
-      setCart(amountChange(id, -1))
+  function removeProduct(id) {
+    const product = cart.find(cartItem => cartItem.id === id);
+    const isLast = product.amount === 1;
+    if(isLast) {
+      return setCart(lastCart => lastCart.filter(cartItem => cartItem.id !== id));
     }
+    setCart(amountChange(id, -1))
+  }
 
-    useEffect(() => {
-      const amountProducts = cart.reduce((counting, product) => counting + product.amount, 0);
-      setProductsAmount(amountProducts);
-    }, [cart, setProductsAmount])
+  useEffect(() => {
+    const { amountProducts, newTotal } = cart.reduce((counting, product) => ({ 
+      amountProducts: counting.amountProducts + product.amount,
+      newTotal: counting.newTotal + (product.value * product.amount)
+    }), {
+      amountProducts: 0,
+      newTotal: 0
+    });
+    setProductsAmount(amountProducts);
+    setCartTotalValue(newTotal);
+  }, [cart, setProductsAmount, setCartTotalValue])
 
   return {
     cart,
     setCart,
     addProduct,
     removeProduct,
-    productsAmount
+    productsAmount,
+    cartTotalValue
   }
 }

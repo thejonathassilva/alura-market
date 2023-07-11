@@ -1,15 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Snackbar, InputLabel, Select, MenuItem } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Container, Back, TotalContainer, PaymentContainer } from './styles';
 import { useCartContext } from 'common/context/Cart';
 import Product from 'components/Product';
 import { useNavigate } from 'react-router-dom';
-import { PaymentContext, usePaymentContext } from 'common/context/Payment';
+import { usePaymentContext } from 'common/context/Payment';
 
 export default function Cart() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { cart } = useCartContext();
+  const { cart, cartTotalValue } = useCartContext();
   const { paymentMethod, paymentType, changePaymentMethod } = usePaymentContext()
   const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ export default function Cart() {
       <TotalContainer>
         <div>
           <h2>Total no carrinho: </h2>
-          <span>R$ </span>
+          <span>R$ {cartTotalValue.toFixed(2)}</span>
         </div>
         <div>
           <h2> Saldo: </h2>
