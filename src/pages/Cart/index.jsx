@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Button, Snackbar, InputLabel, Select, MenuItem } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { Container, Back, TotalContainer, PaymentContainer } from './styles';
@@ -6,12 +6,15 @@ import { useCartContext } from 'common/context/Cart';
 import Product from 'components/Product';
 import { useNavigate } from 'react-router-dom';
 import { usePaymentContext } from 'common/context/Payment';
+import { UserContext } from 'common/context/User';
 
 export default function Cart() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const { cart, cartTotalValue } = useCartContext();
+  const { balance = 0 } = useContext(UserContext);
   const { paymentMethod, paymentType, changePaymentMethod } = usePaymentContext()
   const navigate = useNavigate();
+  const total = useMemo(() => balance - cartTotalValue, [balance, cartTotalValue]);
 
   return (
     <Container>
@@ -50,17 +53,18 @@ export default function Cart() {
         </div>
         <div>
           <h2> Saldo: </h2>
-          <span> R$ </span>
+          <span> R$ {Number(balance).toFixed(2)}</span>
         </div>
         <div>
           <h2> Saldo Total: </h2>
-          <span> R$ </span>
+          <span> R$ {total.toFixed(2)}</span>
         </div>
       </TotalContainer>
       <Button
         onClick={() => {
           setOpenSnackbar(true);
         }}
+        disabled={total < 0}
         color='primary'
         variant='contained'
       >
