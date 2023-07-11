@@ -11,30 +11,30 @@ export default function Router() {
   return (
     <UserProvider>
       <CartProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route
-                  path='/'  
-                  element={
-                      <Login />
-                  }
-                />
-                <Route
-                  path='/feira'
-                  element={
-                        <Market/>
-                  }
-                />
-              <Route
-                path='/carrinho'
-                element={
-                  <PaymentProvider>
-                    <Cart/>
-                  </PaymentProvider>
+        <PaymentProvider>
+          <BrowserRouter>
+              <Routes>
+                  <Route
+                    path='/'  
+                    element={
+                        <Login />
                     }
-                />
-            </Routes>
-        </BrowserRouter>
+                  />
+                  <Route
+                    path='/feira'
+                    element={
+                          <Market/>
+                    }
+                  />
+                <Route
+                  path='/carrinho'
+                  element={
+                      <Cart/>
+                    }
+                    />
+              </Routes>
+          </BrowserRouter>
+        </PaymentProvider>
       </CartProvider>
     </UserProvider>
   )

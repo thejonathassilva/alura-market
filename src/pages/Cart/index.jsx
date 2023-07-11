@@ -10,7 +10,7 @@ import { UserContext } from 'common/context/User';
 
 export default function Cart() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const { cart, cartTotalValue } = useCartContext();
+  const { cart, cartTotalValue,  makingPurchase} = useCartContext();
   const { balance = 0 } = useContext(UserContext);
   const { paymentMethod, paymentType, changePaymentMethod } = usePaymentContext()
   const navigate = useNavigate();
@@ -62,9 +62,10 @@ export default function Cart() {
       </TotalContainer>
       <Button
         onClick={() => {
+          makingPurchase();
           setOpenSnackbar(true);
         }}
-        disabled={total < 0}
+        disabled={total < 0 || cart.length === 0}
         color='primary'
         variant='contained'
       >
