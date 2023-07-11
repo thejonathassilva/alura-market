@@ -5,6 +5,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserProvider } from 'common/context/User';
 import { CartProvider } from 'common/context/Cart';
+import { PaymentProvider } from 'common/context/Payment';
 
 export default function Router() {
   return (
@@ -27,7 +28,9 @@ export default function Router() {
               <Route
                 path='/carrinho'
                 element={
+                  <PaymentProvider>
                     <Cart/>
+                  </PaymentProvider>
                     }
                 />
             </Routes>
